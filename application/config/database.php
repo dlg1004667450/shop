@@ -75,12 +75,12 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => '',
-	'password' => '',
-	'database' => '',
+	'hostname' => 'www.0859cars.com',
+	'username' => 'root',
+	'password' => 'qxnmlk2016root',
+	'database' => 'yimeng',
 	'dbdriver' => 'mysqli',
-	'dbprefix' => '',
+	'dbprefix' => 'my_',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
 	'cache_on' => FALSE,

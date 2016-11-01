@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><{config_item('website_title')}></title>
+    <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="/views/default/skin/css/swiper.min.css">
+    <link rel="stylesheet" href="/views/default/skin/css/style.css">
+</head>
+<body style="background:#fff;">
+<div class="homeimg">
+    <a href="<{site_url('/web/welcome/home')}>"><img src="/views/default/skin/images/home.png"></a>
+</div>
+<!-- banner start -->
+<section class="banner">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <{foreach $goods_data.image_list as $key}>
+            <div class="swiper-slide">
+                <img src="<{image_thumb($key.url,640,640)}>" width="100%" />
+            </div>
+            <{/foreach}>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</section>
+<!-- banner end -->
+<section class="content">
+    <div class="proDbox">
+        <p class="proT"><{$goods_data.name}></p>
+        <!--价格-->
+        <p class="proP">
+            <{if min($goods_data.max_min_sell_price)!=max($goods_data.max_min_sell_price)}>
+            ￥<{min($goods_data.max_min_sell_price)}>-￥<{max($goods_data.max_min_sell_price)}>
+            <{else}>
+            ￥<{min($goods_data.max_min_sell_price)}>
+            <{/if}>
+        </p>
+    </div>
+    <div class="commentbox">
+        <a class="flexbox" href="<{site_url("/web/goods/comment/<{$goods_data.id}>")}>">
+            <div class="primarybox">
+                <p class="primary_label">商品评价</p>
+            </div>
+            <div class="primary_labelR"><{$goods_data.comments}></div>
+        </a>
+    </div>
+    <div class="proInfowrap">
+        <div class="proInfoTbox">
+            <div class="proInfoT proInfoT_active">商品介绍</div>
+            <div class="proInfoT">规格参数</div>
+        </div>
+        <div class="proInfoshowbox">
+                 <div class="proInfoshow" style="display:block;">
+                    <{$goods_data.desc}>
+                </div>
+                <div class="proInfoshow">
+                    <{foreach $goods_data.goods_attr as $k}>
+                    <p><{$k.name}>:<{$k.attr_value}></p>
+                    <{/foreach}>
+                </div>
+        </div>
+    </div>
+</section>
+<!-- footer start -->
+<footer>
+    <div class="blank"></div>
+    <div class="tabnav flexbox">
+        <div class="tabnavL">
+            <a href="javascript:;" onclick="favorite_add(<{$goods_data.id}>)" class="tabnav_aL">
+                <div class="tabnav_imgbox">
+                    <{if $goods_data.favorite==1}>
+                    <!--已经收藏-->
+                    <img id="godos_favorite_<{$goods_data.id}>" src="/views/default/skin/images/is_favorite.png" width="38%">
+                    <{else}>
+                    <!--未收藏-->
+                    <img id="godos_favorite_<{$goods_data.id}>" src="/views/default/skin/images/no_favorite.png" width="38%">
+                    <{/if}>
+                </div>
+                <p class="navbar_label">收藏</p>
+            </a>
+            <a href="<{site_url("/web/im/chat/<{$goods_data.shop_data.m_id}>")}>" class="tabnav_aL">
+                <div class="tabnav_imgbox">
+                    <img src="/views/default/skin/images/icon14.png">
+                </div>
+                <p class="navbar_label">客服</p>
+            </a>
+            <a href="<{site_url('/web/cart')}>" class="tabnav_aL">
+                <div class="tabnav_imgbox">
+                    <img src="/views/default/skin/images/icon15.png">
+                    <div class="dot" id="my_cart_count">0</div>
+                </div>
+                <p class="navbar_label">购物车</p>
+            </a>
+        </div>
+        <div class="tabnavR">
+            <a href="javascript:;" class="tabnav_aRL" id="add_cart">
+                加入购物车
+            </a>
+            <a href="javascript:;" class="tabnav_aRR" id="buy_cart">
+                立即购买
+            </a>
+        </div>
+    </div>
+</footer>
+<!-- footer end -->
+<div class="masker">
+    <div class="maskerbox">
+        <div class="conwrap">
+            <a href="javascript:;" class="maskerclose">
+                <img src="/views/default/skin/images/icon16.png">
+            </a>
+            <div class="maskerwrap">
+                <div class="maskerimg">
+                    <img id="sku_image" src="<{$goods_data.image}>">
+                </div>
+                <div class="prodesbox">
+                    <p class="proprice" id="sell_price">
+                    <{if min($goods_data.max_min_sell_price)!=max($goods_data.max_min_sell_price)}>
+                        ￥<{min($goods_data.max_min_sell_price)}>-￥<{max($goods_data.max_min_sell_price)}>
+                        <!--市场价：￥<{min($goods_data.max_min_market_price)}>-￥<{max($goods_data.max_min_market_price)}>-->
+                    <{else}>
+                        ￥<{min($goods_data.max_min_sell_price)}>
+                        <!--市场价：￥<{$goods_data.market_price}>-->
+                    <{/if}>
+                    </p>
+                    <p class="proremaining">库存<span id="store_nums" style="font-size: 0.22rem;"><{$goods_data.store_nums}></span>件</p>
+                </div>
+            </div>
+            <!-- 规格参数 -->
+            <div class="parameterbox">
+                <{foreach $goods_data.spec_select_list as $key}>
+                <div class="parameterwrap goods_attr">
+                    <p class="parameterT"><{$key.name}></p>
+                    <div class="parameteritems">
+                        <{foreach $key.value as $k}>
+                        <{if $key.type==1}>
+                        <a href="javascript:;" class="parameter_a goods_sku" val="<{$k}>"><{$k}></a>
+                        <{elseif $key.type==2}>
+                        <a href="javascript:;" class="parameter_a goods_sku" style="padding:0;" val="<{$k}>" onclick="set_sku_image('<{$k}>')"><img src="<{$k}>"></a>
+                        <{/if}>
+                        <{/foreach}>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <{/foreach}>
+                <!--已经选择的商品skuid-->
+                <input type="hidden" id="sku_id" value="<{if $goods_data.spec_select_list==''}><{$goods_data.one_sku_data.sku_id}><{/if}>">
+                <!--起订量-->
+                <input type="hidden" id="sku_minimum" value="<{if $goods_data.spec_select_list==''}><{$goods_data.one_sku_data.minimum}><{/if}>">
+            </div>
+            <!-- 规格参数 -->
+            <!-- 购买 -->
+            <div class="buybox flexbox">
+                <div class="buynumbox">
+                    购买数量
+                </div>
+                <div class="buybtnbox flexbox">
+                    <div class="buybtn" onclick="update_num(-1);">
+                        <img src="/views/default/skin/images/reducebtn.png">
+                    </div>
+                    <div class="buynum">
+                        <input type="text" class="buynuminput" id="buy_num" onblur="check_sku_num();" value="<{if $goods_data.spec_select_list==''}><{$goods_data.one_sku_data.minimum}><{else}>1<{/if}>" maxlength="5">
+                    </div>
+                    <div class="buybtn" onclick="update_num(1);"><img src="/views/default/skin/images/addbtn.png"></div>
+                </div>
+            </div>
+        </div>
+        <div class="btnbox">
+            <input type="submit" class="inputbtn" id="add_cart_button" onclick="add_cart();" value="确定">
+            <input type="submit" class="inputbtn" id="add_order_button" onclick="add_order();" value="确定">
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/public/js/jquery.js" ></script>
+<script type="text/javascript" src="/public/js/layer/layer.js"></script>
+<script type="text/javascript" src="/public/js/artTemplate.js"></script>
+<script type="text/javascript" src="/public/js/echo.min.js"></script>
+<script type="text/javascript" src="/views/default/skin/js/public.js"></script>
+<script type="text/javascript" src="/views/default/conf_js/product.js"></script>
+<script type="text/javascript" src="/views/default/skin/js/swiper.min.js"></script>
+<script language="JavaScript">
+    //图片延迟加载
+    Echo.init({
+        offset: 500,
+        throttle: 0
+    });
+
+    //SKU信息
+    var sku_list = <{ch_json_encode($goods_data.sku_list)}>;
+
+    //评论
+    /*$(function(){
+        comment_list(<{$goods_data.id}>);
+    })*/
+
+</script>
+<script>
+    //图片滑动
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        autoplay: 2000,
+        spaceBetween: 0,
+    });
+    // 加入购物车
+    $('#add_cart').on('click', function () {
+        $('.masker').addClass('maskershow');
+        $('#add_cart_button').show();
+        $('#add_order_button').hide();
+    });
+
+    //直接购买
+    $('#buy_cart').on('click', function () {
+        $('.masker').addClass('maskershow');
+        $('#add_cart_button').hide();
+        $('#add_order_button').show();
+    });
+    // 遮罩层隐藏
+    $('.maskerclose').on('click', function () {
+        $('.masker').removeClass('maskershow');
+    });
+    // 商品介绍和规格参数切换
+    $('.proInfoT').click(function(){
+        $(this).addClass('proInfoT_active').siblings().removeClass('proInfoT_active');
+         $('.proInfoshow').eq($(this).index()).show().siblings().hide();
+    })
+</script>
+<{include file="default/wechat_share.html"}>
+<script language="JavaScript">
+    wx.ready(function(){
+        var share_title  = "<{$goods_data.name}>";
+        var share_desc   = "<{config_item('website_title')}>";
+        var share_link   = "<{site_url("/web/goods/product/<{$goods_data.id}>?flag_user=<{get_m_id()}>")}>";
+        var share_imgurl = "<{config_item('base_url')}><{$goods_data.image}>";
+        wx_share(share_title, share_desc, share_link, share_imgurl);
+    });
+</script>
+</body>
+</html>
+
+
+
+

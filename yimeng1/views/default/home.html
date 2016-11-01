@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><{config_item('website_title')}></title>
+    <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="/views/default/skin/css/swiper.min.css">
+    <link rel="stylesheet" href="/views/default/skin/css/style.css">
+</head>
+<body>
+<!-- banner start -->
+<section class="banner">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <{show_adv(1,'<div class="swiper-slide">','</div>')}>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</section>
+<!-- banner end -->
+<section class="gridsitem">
+    <!--顶部分类 start-->
+    <{assign cat_list ym_list('goods_category',['where'=>['reid'=>0]], 4, 1, 'sortnum asc,id asc')}>
+    <{foreach $cat_list as $val=>$key}>
+    <a href="<{site_url('/web/category?cat_id=<{$key.id}>')}>" class="gridsitem_a1">
+        <div class="gridsitem_icon2">
+            <img src="<{$key.image}>">
+        </div>
+        <p class="grids_label cat_color_<{$key.id}>"><{$key.name}></p>
+    </a>
+    <{/foreach}>
+    <!--顶部分类 end-->
+    <a href="<{site_url('/web/category')}>" class="gridsitem_a1">
+        <div class="gridsitem_icon2">
+            <img src="/views/default/skin/images/icon11.png">
+        </div>
+        <p class="grids_label">更多</p>
+    </a>
+</section>
+<!--gridsitem end  -->
+<section class="content">
+    <div class="midline">
+        <img src="/views/default/skin/images/icon05.png">
+    </div>
+
+    <section class="sortwrap">
+        <!--单个分类模板start-->
+        <{foreach $cat_list as $val=>$key}>
+        <section class="sortbox">
+            <!-- 分类标题 start-->
+            <div class="borderbox" onclick="window.location.href='<{site_url("/web/goods/goods_list?cat_id=<{$key.id}>")}>'">
+                <div class="borderboxL">
+                    <img src="/views/default/skin/images/icon12.png">
+                </div>
+                <div class="borderboxM">
+                    <{$key.name}>
+                </div>
+                <div class="borderboxR">
+                </div>
+            </div>
+            <!-- 分类标题 end -->
+            <!-- 分类内容 start -->
+            <{assign goods_list ym_goods_list(['cat_id'=>$key.id], 3, 1)}>
+            <{foreach $goods_list as $v=>$k}>
+            <div class="sortitembox">
+                <a href="<{site_url("/web/goods/product/<{$k.id}>")}>" class="gridsitem_a2">
+                    <div class="sortImgbox">
+                        <img src="<{image_thumb($k.image,200,200)}>">
+                    </div>
+                    <p class="pro_name"><{$k.name}></p>
+                    <p class="pro_price">￥<{$k.sell_price}></p>
+                </a>
+            </div>
+            <{/foreach}>
+            <!-- 分类内容 end-->
+        </section>
+        <{/foreach}>
+    </section>
+</section>
+<script type="text/javascript" src="/public/js/jquery.js"></script>
+<script type="text/javascript" src="/public/js/artTemplate.js"></script>
+<script type="text/javascript" src="/views/default/skin/js/swiper.min.js"></script>
+<script type="text/javascript" src="/views/default/skin/js/public.js"></script>
+<{include file="default/footer.html"}>
+<script>
+    //图片滑动
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        autoplay: 1000,
+        spaceBetween: 0,
+    });
+</script>
+</body>
+</html>
+
+
+
+

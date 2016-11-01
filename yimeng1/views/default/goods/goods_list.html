@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><{config_item('website_title')}></title>
+    <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="/views/default/skin/css/style.css">
+</head>
+<body style="background:#fff;">
+<!-- header start -->
+<header class="topbar ">
+    <div class="conwrap flexbox">
+        <div class="topbarL">
+            <a class="topbar_a" href="javascript:history.go(-1)">
+                <img src="/views/default/skin/images/left_arrow.png"/>
+            </a>
+        </div>
+        <div class="topbarM"><{$goods_category_data.name}></div>
+        <div class="topbarR" id="selectbtn">筛选</div>
+    </div>
+</header>
+<!-- header end -->
+<!-- content start -->
+<section class="whitewrap">
+    <div class="conwrap">
+        <!-- 排序 -->
+        <div class="pronav">
+            <{foreach config_item('goods_orderby_name') as $val=>$key}>
+            <a href="<{search_array_to_link($search_where, ['orderby'=>$val,'orderby_type'=>$new_orderby_type])}>" class="pronav_a <{if $search_where.orderby==$val}>pronav_active<{/if}>">
+                <p class="pronavT <{if $search_where.orderby==$val}><{if $search_where.orderby_type=='desc'}>pronavT_down<{else}>pronavT_up<{/if}><{/if}>"><{$key}></p>
+            </a>
+            <{/foreach}>
+        </div>
+        <div class="listbox">
+            <!-- single list -->
+            <{foreach $res_data.goods_list as $key}>
+            <a href="<{site_url("/web/goods/product/<{$key.id}>")}>" class="listwrap">
+            <div class="listL">
+                <img src="/public/images/loading.gif" data-echo="<{image_thumb($key.image,200,200)}>">
+            </div>
+            <div class="listR">
+                <p class="listT"><{$key.name}></p>
+                <div class="listPbox">
+                    <div class="listP">
+                        ￥<{$key.sell_price}>
+                    </div>
+                    <div class="listImg">
+                        <img src="/views/default/skin/images/list02.png" onclick="list_join_cart(<{$key.id}>);">
+                    </div>
+                </div>
+            </div>
+            </a>
+            <{/foreach}>
+            <!-- single list end-->
+        </div>
+        <!--分页-->
+        <{page_view('pages_bar',$res_data.page_count,search_array_to_link($search_where),0,false,false)}>
+    </div>
+</section>
+<!--content end  -->
+<!-- mask start -->
+<div class="mask">
+    <div class="maskbox">
+        <section>
+            <!-- 品牌start -->
+            <{if !empty($res_data.brand_list)}>
+            <section class="selectwrap">
+                <a href="javascript:;" class="selectT select_activeT">
+                    品牌
+                </a>
+                <div class="selectitembox" style="display:block;">
+                    <a href="javascript:;" class="select_a">
+                        <div class="selectlist <{if $search_where.brand_id==''}>current<{/if}>" data-key="" data-value="">
+                            全部
+                        </div>
+                    </a>
+                    <{foreach $res_data.brand_list as $key}>
+                    <a href="javascript:;" class="select_a">
+                        <div class="selectlist <{if $search_where.brand_id==$key.id}>current<{/if}>" data-key="brand_id" data-value="<{$key.id}>">
+                            <{$key.name}>
+                        </div>
+                    </a>
+                    <{/foreach}>
+                    <div class="clear"></div>
+                </div>
+            </section>
+            <{/if}>
+            <!-- 品牌end -->
+            <!-- 筛选属性start -->
+            <{foreach $res_data.attr_list as $val=>$key}>
+            <section class="selectwrap">
+                <a href="javascript:;" class="selectT">
+                    <{$key.name}>
+                </a>
+                <div class="selectitembox">
+                    <a href="javascript:;" class="select_a">
+                        <div class="selectlist <{if $search_where.attr[$key.id]==''}>current<{/if}>" data-key="attr[<{$key.id}>]" data-value="">
+                            全部
+                        </div>
+                    </a>
+                    <{foreach $key.value as $k}>
+                    <a href="javascript:;" class="select_a ">
+                        <div class="selectlist <{if $search_where.attr[$key.id]==$k}>current<{/if}>" data-key="attr[<{$key.id}>]" data-value="<{$k}>">
+                            <{$k}>
+                        </div>
+                    </a>
+                    <{/foreach}>
+                    <div class="clear"></div>
+                </div>
+            </section>
+            <{/foreach}>
+            <!-- 筛选属性end -->
+            <!-- end -->
+            <!-- 价格区间 -->
+            <section class="pricewrap">
+                <a href="javascript:;" class="priceT">
+                    价格区间（元）
+                </a>
+                <div class="pricebox flexbox">
+                    <div class="inputwrap flexbox">
+                        <input type="text" placeholder="最低价" class="priceinput" name="min_price" value="<{$search_where.min_price}>">
+                    </div>
+                    <div class="priceImg">
+                        <img src="/views/default/skin/images/lessbtn.png">
+                    </div>
+                    <div class="inputwrap flexbox">
+                        <input type="text" placeholder="最高价" class="priceinput" name="max_price" value="<{$search_where.max_price}>">
+                    </div>
+                </div>
+            </section>
+            <!-- 价格区间 -->
+            <!-- end -->
+            <!-- 坚决内容被遮挡 -->
+            <div class="blank"></div>
+        </section>
+        <!-- 按钮 start -->
+        <div class="twobtn">
+            <div class="btnLL"></div>
+            <div class="btnL">
+                取消
+            </div>
+            <div class="btnR" onclick="search_goods_list();">
+                完成
+            </div>
+        </div>
+    </div>
+</div>
+<!-- mask end -->
+<script type="text/javascript" src="/public/js/jquery.js"></script>
+<script type="text/javascript" src="/public/js/layer/layer.js"></script>
+<script type="text/javascript" src="/public/js/artTemplate.js"></script>
+<script type="text/javascript" src="/views/default/skin/js/swiper.min.js"></script>
+<script type="text/javascript" src="/views/default/skin/js/public.js"></script>
+<script type="text/javascript" src="/public/js/echo.min.js"></script>
+<{include file="default/footer.html"}>
+<script>
+    //图片延迟加载
+    Echo.init({
+        offset: 500,
+        throttle: 0
+    });
+
+    //列表页加入购物车
+    function list_join_cart(goods_id){
+        layer.open({
+            type: 2,
+            title: false,
+            area: ['100%', '100%'],
+            shade: 0.8,
+            closeBtn: 0,
+            shadeClose: true,
+            offset: 'rb', //右下角弹出
+            content: '/web/goods/join_cart_product/'+goods_id
+        });
+    }
+
+    //组合筛选条件合成连接
+    function search_goods_list(){
+        var url = '?cat_id=<{$search_where.cat_id}>';
+        $('.selectitembox .current').each(function(){
+            url = url+'&'+$(this).attr('data-key')+'='+$(this).attr('data-value');
+        })
+
+        min_price = $('[name="min_price"]').val();
+        max_price = $('[name="max_price"]').val();
+        url = url+'&min_price='+min_price+'&max_price='+max_price;
+
+        url = '/web/goods/goods_list.html'+url;
+        window.location.href=url;
+    }
+
+    $(function () {
+        // 筛选遮罩层展示
+        $('#selectbtn').on('click', function () {
+            $('.mask').addClass('show');
+        });
+        // 筛选遮罩层隐藏
+        $('.btnL,.btnR').on('click', function () {
+            $('.mask').removeClass('show');
+        });
+        // 筛选类别切换
+        $('.selectwrap a').on('click', function () {
+            if ($(this).hasClass("selectT")) {
+                $(this).removeClass("selectT").addClass("select_activeT");
+            } else if ($(this).hasClass("select_activeT")) {
+                $(this).removeClass("select_activeT").addClass("selectT");
+            }
+            $(this).parent().find(".selectitembox").slideToggle();
+        });
+        // 筛选切换
+        $('.selectlist').on('click', function () {
+            $(this).parent().parent().find('.selectlist').removeClass('current');
+            $(this).addClass('current');
+        });
+
+        $('.listImg').on('click', function () {
+            return false;
+        });
+    });
+
+</script>
+<{include file="default/wechat_share.html"}>
+<script language="JavaScript">
+    wx.ready(function(){
+        var share_title  = "<{config_item('website_title')}>";
+        var share_desc   = "";
+        var share_link   = "<{site_url("/web?flag_user=<{get_m_id()}>")}>";
+        var share_imgurl = "<{config_item('base_url')}><{config_item('website_logo')}>";
+        wx_share(share_title, share_desc, share_link, share_imgurl);
+    });
+</script>
+</body>
+</html>
+
+
+
+

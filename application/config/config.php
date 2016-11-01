@@ -23,8 +23,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = '';
+date_default_timezone_set("PRC");//设置时区
+$config['base_url'] = 'http://localhost/shop';
+//$domain = $_SERVER['HTTP_HOST'];
+//if ( ! empty($_SERVER['HTTPS'])) {
+//    $config['base_url'] = 'https://'.$domain;
+//} else {
+//    $config['base_url'] = 'http://'.$domain;
+//}
+//$config['base_url'] = 'http://localhost/yimeng';
+$config['img_url']  = '';//文件上传域名
+$config['upload_url'] = $config['base_url'].'/api/upload/index';//文件上传地址
 
+$config['manager_title'] = '后台管理系统';
+$config['safe_type'] = 'cookie';//用户登录信息保存方式cookie/seesion
+$config['safe_time'] = 24*3600*7;//用户登录信息保存时间仅cookie下有用
+
+$config['goods_orderby_name'] = array('up_time'=>'新品','sale'=>'销量','sell_price'=>'价格','visit'=>'人气');//商品排序字段
 /*
 |--------------------------------------------------------------------------
 | Index File
@@ -76,7 +91,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']	= 'english';
+$config['language']	= 'zh_cn';
 
 /*
 |--------------------------------------------------------------------------

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+	<title><{config_item('website_title')}></title>
+<meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<link rel="stylesheet" href="/views/default/skin/css/swiper.min.css">
+<link rel="stylesheet" href="/views/default/skin/css/style.css">
+</head>
+<body >
+<!-- banner start -->
+<section class="banner">
+	<div class="swiper-container">
+		<div class="swiper-wrapper">
+			<div class="swiper-slide">
+				<img src="/views/default/skin/images/banner01.png" width="100%">
+			</div>
+			<div class="swiper-slide">
+				<img src="/views/default/skin/images/banner01.png" width="100%">
+			</div>
+			<div class="swiper-slide">
+				<img src="/views/default/skin/images/banner01.png" width="100%">
+			</div>
+		</div>
+		<div class="swiper-pagination"></div>
+	</div>
+</section>
+<!-- banner end -->
+<section class="gridsitem">
+	<a href="#" class="gridsitem_a">
+		<div class="gridsitem_icon1">
+			<img src="/views/default/skin/images/icon01.png" >
+		</div>	
+	</a>
+	<a href="#" class="gridsitem_a">
+		<div class="gridsitem_icon1">
+			<img src="/views/default/skin/images/icon02.png" >
+		</div>	
+	</a>
+	<a href="#" class="gridsitem_a">
+		<div class="gridsitem_icon1">
+			<img src="/views/default/skin/images/icon03.png" >
+		</div>	
+	</a>
+	<a href="#" class="gridsitem_a">
+		<div class="gridsitem_icon1">
+			<img src="/views/default/skin/images/icon04.png" >
+		</div>	
+	</a>
+</section>
+<!--gridsitem end  -->
+<section class="content">
+	<div class="midline">
+		<img src="/views/default/skin/images/icon05.png" >
+	</div>
+	<!-- 单个图片 -->
+	<div class="singlebox">
+		<img src="/views/default/skin/images/icon06.png" >
+	</div>
+	<div class="singlebox">
+		<img src="/views/default/skin/images/icon06.png" >
+	</div>
+</section>
+<script type="text/javascript" src="/public/js/jquery.js"></script>
+<script type="text/javascript" src="/views/default/skin/js/swiper.min.js"></script>
+<script type="text/javascript" src="/views/default/skin/js/public.js"></script>
+<{include file="default/footer.html"}>
+<script>
+	//图片滑动
+	var swiper = new Swiper('.swiper-container', {
+	    pagination: '.swiper-pagination',
+	    paginationClickable: true,
+	    autoplay:1000,
+	    spaceBetween: 0,
+	});
+
+</script>
+</body>
+</html>
+
+
+
+

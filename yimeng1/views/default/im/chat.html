@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="blank">
+    <meta name="format-detection" content="telephone=no, email=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title><{config_item('website_title')}></title>
+</head>
+<body>
+<div class="wrap">
+</div>
+<!-- IE8及以下支持JSON -->
+<!--[if lt IE 9]>
+<script src="https://g.alicdn.com/aliww/ww/json/json.js" charset="utf-8"></script>
+<![endif]-->
+<!-- 自动适配移动端与pc端 -->
+<script src="https://g.alicdn.com/aliww/??h5.imsdk/2.1.5/scripts/yw/wsdk.js,h5.openim.kit/0.4.0/scripts/kit.js" charset="utf-8"></script>
+<script src="https://g.alicdn.com/aliww/h5.openim.sdk/1.0.6/scripts/wsdk.js"></script>
+<script language="JavaScript">
+    window.onload = function(){
+        WKIT.init({
+            uid: '<{$member_data.uid}>',
+            avatar: '<{$member_data.headimgurl}>',
+            appkey: '<{config_item("im_appkey")}>',
+            credential: '<{$member_data.uid}>',
+            touid: '<{$shop_data.touid}>',
+            toAvatar: '<{$shop_data.headimgurl}>',
+            title:'<{if $shop_user_data.full_name!=''}><{$shop_user_data.full_name}><{else}><{substr($shop_data.username,0,3)}>****<{substr($shop_data.username,-4,4)}><{/if}>',
+        });
+    }
+</script>
+<iframe style="display: none;" src="<{site_url("/web/im/set_read_state/<{$shop_data.id}>")}>"></iframe>
+</body>
+</html>
